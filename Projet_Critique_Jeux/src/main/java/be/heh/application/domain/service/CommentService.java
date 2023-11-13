@@ -1,29 +1,33 @@
 package be.heh.application.domain.service;
 
 import be.heh.application.domain.model.Comment;
-import be.heh.application.port.in.ManagementComment;
-import be.heh.application.port.out.CommentOut;
+import be.heh.application.domain.model.User;
+import be.heh.application.port.out.CommentRepository;
+
 
 import java.util.List;
 
 public class CommentService {
-    private ManagementComment managementComment;
-    private CommentOut commentOut;
+    private final CommentRepository commentRepository;
 
-    public CommentService(ManagementComment managementComment, CommentOut commentOut) {
-        this.managementComment = managementComment;
-        this.commentOut = commentOut;
+    public CommentService(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
     }
 
-    public void addComment(Comment comment) {
-        managementComment.addComment(comment);
+    public Comment createComment(int gameId, String content, User author, int rating) {
+        Comment newComment = new Comment(0, gameId, content, rating, author);
+        return commentRepository.createComment(newComment);
     }
 
-    public Comment getComment(String commentId) {
-        return commentOut.getComment(commentId);
+    public Comment getCommentById(int commentId) {
+        return commentRepository.getCommentById(commentId);
     }
 
-    public List<Comment> getCommentsByAuthor(String author) {
-        return commentOut.getCommentAuthor(author);
+    public List<Comment> getCommentsForGame(int gameId) {
+        return commentRepository.getCommentsForGame(gameId);
+    }
+
+    public void deleteComment(int commentId) {
+        commentRepository.deleteComment(commentId);
     }
 }

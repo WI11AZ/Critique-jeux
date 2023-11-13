@@ -1,31 +1,36 @@
 package be.heh.application.domain.model;
 
 public class User {
-    private String ID;
-    private String identifiant;
+    private int id;
+    private String username;
+    private String email;
     private String password;
-    private int role;
 
-    public User(String ID, String identifiant, String password, int role){
-        this.ID=ID;
-        this.identifiant=identifiant;
-        this.password=password;
-        this.role=role;
-    }
-    public String getID(){
-        return ID;
+    public User(int id, String username, String email, String password) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public int getId() {
+        return id;
     }
 
-    public String getIdentifiant() {
-        return identifiant;
+    public String getUsername() {
+        return username;
     }
 
-    public void setIdentifiant(String identifiant) {
-        this.identifiant = identifiant;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -35,12 +40,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
 }
+
+
