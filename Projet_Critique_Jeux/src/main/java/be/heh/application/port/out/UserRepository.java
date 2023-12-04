@@ -6,5 +6,7 @@ public interface UserRepository {
     User createUser(User user);
     User getUserById(int userId);
     User getUserByUsername(String username);
-    void deleteUser(int userId);
+    boolean deleteUser(int userId);
+
+    void updateUser(User user);
 }

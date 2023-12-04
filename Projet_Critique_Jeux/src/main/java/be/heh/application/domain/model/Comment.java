@@ -1,5 +1,6 @@
 package be.heh.application.domain.model;
 import java.util.Objects;
+import be.heh.application.domain.model.User;
 
 public class Comment {
     private int id;
@@ -58,8 +59,4 @@ public class Comment {
                 Objects.equals(author, comment.author);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(gameId, content, rating, author);
-    }
 }

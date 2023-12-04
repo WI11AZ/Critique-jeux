@@ -24,12 +24,31 @@ public class UserService {
         return userRepository.getUserByUsername(username);
     }
 
-    public void deleteUser(int userId) {
-        userRepository.deleteUser(userId);
+    public boolean deleteUser(int userId) {
+        return userRepository.deleteUser(userId);
     }
+
+
 
     public boolean authenticateUser(String username, String password) {
         User user = userRepository.getUserByUsername(username);
         return user != null && user.getPassword().equals(password);
+    }
+    public User updateUser(int userId, User updatedUserData) {
+        User existingUser = userRepository.getUserById(userId);
+
+        if (existingUser != null) {
+            // Update the fields that you want to allow being updated
+            existingUser.setUsername(updatedUserData.getUsername());
+            existingUser.setEmail(updatedUserData.getEmail());
+            existingUser.setPassword(updatedUserData.getPassword());
+
+            // Save the updated user to the repository
+            userRepository.updateUser(existingUser);
+
+            return existingUser;
+        } else {
+            return null; // User not found
+        }
     }
 }
