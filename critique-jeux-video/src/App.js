@@ -7,6 +7,7 @@ import AccueilAdmin from './pages/accueilAdmin';
 import ManagementGame from './pages/managementGame';
 import ManagementUser from './pages/managementUser';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
