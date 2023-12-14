@@ -1,23 +1,26 @@
-package be.heh.adapter.in.web;
+package be.heh.adapter.web;
 
 import be.heh.application.domain.model.User;
 import be.heh.application.domain.service.UserService;
+import be.heh.port.in.UserUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class AdaptateurUserController {
 
-    private final UserService userService;
+    private final UserUseCase userUseCase;
 
-    public AdaptateurUserController(UserService userService) {
-        this.userService = userService;
+    public AdaptateurUserController(UserUseCase userUseCase) {
+        this.userUseCase = userUseCase;
     }
-//tester avec mock mvc pour les controller
-    @GetMapping("/users/{userId}")
+
+    @GetMapping("/user/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable int userId) {
-        User user = userService.getUserById(userId);
+        User user = userUseCase.getUserById(userId);
 
         if (user != null) {
             return ResponseEntity
@@ -29,23 +32,26 @@ public class AdaptateurUserController {
                     .build();
         }
     }
-    @PutMapping("/users/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable int userId, @RequestBody User updatedUserData) {
-        User updatedUser = userService.updateUser(userId, updatedUserData);
+    @GetMapping("/user")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userUseCase.getAllUsers();
 
-        if (updatedUser != null) {
+        if (!users.isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(updatedUser);
+                    .body(users);
         } else {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .build();
         }
     }
-    @DeleteMapping("/users/{userId}")
+
+
+
+    @DeleteMapping("/user/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable int userId) {
-        boolean deleted = userService.deleteUser(userId);
+        boolean deleted = userUseCase.deleteUser(userId);
 
         if (deleted) {
             return ResponseEntity
@@ -57,9 +63,11 @@ public class AdaptateurUserController {
                     .build();
         }
     }
-    @PostMapping("/users")
+
+
+    @PostMapping("/user")
     public ResponseEntity<User> createUser(@RequestBody User userData) {
-        User createdUser = userService.createUser(userData.getUsername(), userData.getEmail(), userData.getPassword());
+        User createdUser = userUseCase.createUser(userData);
 
         if (createdUser != null) {
             return ResponseEntity
@@ -68,6 +76,20 @@ public class AdaptateurUserController {
         } else {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
+    @PutMapping("/user/{userId}")
+    public ResponseEntity<User> updateUser(@PathVariable int userId, @RequestBody User updatedUserData) {
+        User updatedUser = userUseCase.updateUser(new User(userId, updatedUserData.getUsername(), updatedUserData.getPassword()));
+
+        if (updatedUser != null) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(updatedUser);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
                     .build();
         }
     }

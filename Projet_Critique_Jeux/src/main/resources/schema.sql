@@ -1,20 +1,23 @@
-CREATE TABLE User (
-                         id INT PRIMARY KEY,
-                         username VARCHAR(100),
-                         email VARCHAR(100),
-                         password VARCHAR(100)
+CREATE TABLE "User" (
+                        id SERIAL PRIMARY KEY,
+                        username VARCHAR(100) UNIQUE,
+                        password VARCHAR(100)
 );
-CREATE TABLE Game (
-                      id INT PRIMARY KEY,
+
+CREATE TABLE "Game" (
+                      id SERIAL PRIMARY KEY,
                       name VARCHAR(100),
                       image VARCHAR(255),
+                      description VARCHAR(100)
 );
-CREATE TABLE Comment (
-                         id INT PRIMARY KEY,
+
+CREATE TABLE "Comment" (
+                         id SERIAL PRIMARY KEY,
                          gameId INT,
                          content VARCHAR(255),
                          rating INT,
                          author VARCHAR(255),
-                         FOREIGN KEY (gameId) REFERENCES Game(id),
-                         FOREIGN KEY (author) REFERENCES User(username)
+                         FOREIGN KEY (gameId) REFERENCES "Game"(id),
+                         FOREIGN KEY (author) REFERENCES "User"(username)
 );
+

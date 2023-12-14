@@ -1,33 +1,38 @@
 package be.heh.application.domain.service;
 
 import be.heh.application.domain.model.Comment;
-import be.heh.application.domain.model.User;
-import be.heh.application.port.out.CommentRepository;
+import be.heh.application.domain.model.Game;
+import be.heh.port.in.CommentUseCase;
+import be.heh.port.out.CommentPersistance;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
 
-public class CommentService {
-    private final CommentRepository commentRepository;
+public class CommentService implements CommentUseCase {
+    private final CommentPersistance commentPersistance;
 
-    public CommentService(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
+    public CommentService(CommentPersistance commentPersistance) {
+        this.commentPersistance = commentPersistance;
     }
 
-    public Comment createComment(int gameId, String content, User author, int rating) {
-        Comment newComment = new Comment(0, gameId, content, rating, author);
-        return commentRepository.createComment(newComment);
+    @Override
+    public Comment createComment(Comment comment) {
+        commentPersistance.addCommentDB(comment);
+        return comment;
     }
 
-    public Comment getCommentById(int commentId) {
-        return commentRepository.getCommentById(commentId);
+    @Override
+    public boolean deleteComment(int commentId) {
+        commentPersistance.deleteCommentDB(commentId);
+        return true;
     }
 
-    public List<Comment> getCommentsForGame(int gameId) {
-        return commentRepository.getCommentsForGame(gameId);
+    @Override
+    public Comment getGameByIdGame(int gameId) {
+        return commentPersistance.getCommentByIdGameDB(gameId);
     }
 
-    public void deleteComment(int commentId) {
-        commentRepository.deleteComment(commentId);
-    }
+
+
 }

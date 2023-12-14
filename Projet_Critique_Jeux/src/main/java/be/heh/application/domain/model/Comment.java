@@ -7,9 +7,9 @@ public class Comment {
     private int gameId;
     private String content;
     private int rating;
-    private User author;
+    private String author;
 
-    public Comment(int id, int gameId, String content, int rating, User author) {
+    public Comment(int id, int gameId, String content, int rating, String author) {
         this.id = id;
         this.gameId = gameId;
         this.content = content;
@@ -24,6 +24,7 @@ public class Comment {
     public int getGameId() {
         return gameId;
     }
+
 
     public String getContent() {
         return content;
@@ -41,22 +42,14 @@ public class Comment {
         this.rating = rating;
     }
 
-    public User getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return gameId == comment.gameId &&
-                rating == comment.rating &&
-                Objects.equals(content, comment.content) &&
-                Objects.equals(author, comment.author);
-    }
+
 
 }

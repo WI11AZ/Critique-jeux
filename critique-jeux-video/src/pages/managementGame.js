@@ -4,23 +4,24 @@ import AddGame from '../components/addGame';
 import RemoveGame from '../components/removeGame';
 import UpdateGame from '../components/updateGame';
 
-const managementGame = () => {
+const ManagementGame = () => {
     return (
-        <div>
+        <div style={{ display: 'flex', marginTop: 80, textAlign:'center'}}>
             <NavigationAdmin />
-            <div className="management-container">
-                <div className="management-component">
+
+            <div style={{ flex: 1 }}>
                 <AddGame />
             </div>
-            <div className="management-component">
+
+            <div style={{ flex: 1 }}>
                 <RemoveGame />
             </div>
-            <div className="management-component">
+
+            <div style={{ flex: 1 }}>
                 <UpdateGame />
-            </div>
             </div>
         </div>
     );
 };
 
-export default managementGame;
+export default ManagementGame;

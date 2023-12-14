@@ -6,6 +6,8 @@ import Inscription from './pages/inscription';
 import AccueilAdmin from './pages/accueilAdmin';
 import ManagementGame from './pages/managementGame';
 import ManagementUser from './pages/managementUser';
+import GameReview from './pages/gamereview';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -23,6 +25,7 @@ const App = () => {
           <Route path='/accueilAdmin' element={<AccueilAdmin/>}/>
           <Route path='/accueilAdmin/ManagementGame' element={<ManagementGame/>}/>
           <Route path='/accueilAdmin/ManagementUser' element={<ManagementUser/>}/>
+          <Route path='/details/:id' element={<GameReview/>}/>
         </Routes>
       </BrowserRouter>
     </div>

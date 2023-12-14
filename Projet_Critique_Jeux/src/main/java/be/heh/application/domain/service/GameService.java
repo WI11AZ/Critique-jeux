@@ -1,41 +1,46 @@
 package be.heh.application.domain.service;
 
 import be.heh.application.domain.model.Game;
-import be.heh.application.port.out.GameRepository;
-
+import be.heh.application.domain.model.User;
+import be.heh.port.in.GameUseCase;
+import be.heh.port.out.GamePersistance;
+import be.heh.port.out.UserPersistance;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class GameService {
-    private final GameRepository gameRepository;
+public class GameService implements GameUseCase {
+    private final GamePersistance gamePersistance;
 
-    public GameService(GameRepository gameRepository) {
-        this.gameRepository = gameRepository;
+    public GameService(GamePersistance gamePersistance) {
+        this.gamePersistance = gamePersistance;
     }
 
-    public List<Game> getAllGames() {
-        return gameRepository.getAllGames();
+    @Override
+    public Game createGame(Game game) {
+        gamePersistance.addGameDB(game);
+        return game;
     }
 
+    @Override
+    public boolean deleteGame(int gameId) {
+        gamePersistance.deleteGameDB(gameId);
+        return true;
+    }
+
+    @Override
     public Game getGameById(int gameId) {
-        return gameRepository.getGameById(gameId);
+        return gamePersistance.getGameById(gameId);
     }
 
-    public Game createGame(String name, String[] images) {
-        Game newGame = new Game(0, name, images);
-        return gameRepository.createGame(newGame);
+    @Override
+    public List<Game> getAllGame() {
+        return gamePersistance.getAllGame();
     }
 
-    public void updateGame(int gameId, String name, String[] images) {
-        Game existingGame = gameRepository.getGameById(gameId);
-        if (existingGame != null) {
-            existingGame.setName(name);
-            existingGame.setImages(images);
-            gameRepository.updateGame(existingGame);
-        }
-    }
-
-    public void deleteGame(int gameId) {
-        gameRepository.deleteGame(gameId);
+    @Override
+    public Game updateGame(Game game) {
+        gamePersistance.updateGameDB(game);
+        return game;
     }
 }

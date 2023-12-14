@@ -6,19 +6,17 @@ import UpdateUser from '../components/updateUser';
 
 const managementUser = () => {
     return (
-        <div>
+        <div style={{ display: 'flex', marginTop: 80, textAlign:'center'}}>
             <NavigationAdmin />
-            <div className="management-container">
-                <div className="management-component">
-                <AddUser/>
-            </div>
-            <div className="management-component">
-                <RemoveUser/>
-            </div>
-            <div className="management-component">
-                <UpdateUser/>
-            </div>
-            </div>
+                <div style={{ flex: 1 }}>
+                    <AddUser/>
+                </div>
+                <div style={{ flex: 1 }}>
+                    <RemoveUser/>
+                </div>
+                <div style={{ flex: 1 }}>
+                    <UpdateUser/>
+                </div>
         </div>
     );
 };
