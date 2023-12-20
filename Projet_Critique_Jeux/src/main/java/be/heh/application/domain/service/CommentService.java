@@ -32,6 +32,7 @@ public class CommentService implements CommentUseCase {
     public Comment getGameByIdGame(int gameId) {
         return commentPersistance.getCommentByIdGameDB(gameId);
     }
+
+
+
 }
-
-
