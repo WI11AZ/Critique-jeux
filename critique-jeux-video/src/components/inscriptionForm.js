@@ -6,7 +6,7 @@ const inscriptonForm = () => {
         <div className="box">
       <div className="container">
         <div className="top-header">
-        <span style={{ color: '#fff' }}>
+          <span style={{ color: '#fff' }}>
             <Link to="/login" className='accueil'>Have an account?</Link>
           </span>
           <header>Create an account</header>

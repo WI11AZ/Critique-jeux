@@ -1,23 +1,22 @@
-package be.heh.adapter.web;
+package be.heh.adapter.in.web;
 
 import be.heh.application.domain.model.Game;
 import be.heh.application.domain.service.GameService;
-import be.heh.port.in.GameUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @RestController
 public class AdaptateurGameControlleur {
-    private final GameUseCase gameUseCase;
+    private final GameService gameService;
 
-    public AdaptateurGameControlleur(GameUseCase gameUseCase) {
-        this.gameUseCase= gameUseCase;
+    public AdaptateurGameControlleur(GameService gameService) {
+        this.gameService = gameService;
     }
-    @GetMapping("/game/{gameId}")
+
+    @GetMapping("/games/{gameId}")
     public ResponseEntity<Game> getGameById(@PathVariable int gameId) {
-        Game game = gameUseCase.getGameById(gameId);
+        Game game = gameService.getGameById(gameId);
 
         if (game != null) {
             return ResponseEntity
@@ -29,14 +28,18 @@ public class AdaptateurGameControlleur {
                     .build();
         }
     }
-    @GetMapping("/game")
-    public ResponseEntity<List<Game>> getAllGame() {
-        List<Game> game = gameUseCase.getAllGame();
 
-        if (!game.isEmpty()) {
+    @PutMapping("/games/{gameId}")
+    public ResponseEntity<Game> updateGame(@PathVariable int gameId, @RequestBody Game updatedGameData) {
+        gameService.updateGame(gameId, updatedGameData.getName(), updatedGameData.getImages());
+
+        // Assuming updateGame method in GameService doesn't return the updated game
+        Game updatedGame = gameService.getGameById(gameId);
+
+        if (updatedGame != null) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(game);
+                    .body(updatedGame);
         } else {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
@@ -44,11 +47,9 @@ public class AdaptateurGameControlleur {
         }
     }
 
-
-
-    @DeleteMapping("/game/{gameId}")
+    @DeleteMapping("/games/{gameId}")
     public ResponseEntity<Void> deleteGame(@PathVariable int gameId) {
-        boolean deleted = gameUseCase.deleteGame(gameId);
+        boolean deleted = gameService.deleteGame(gameId);
 
         if (deleted) {
             return ResponseEntity
@@ -61,11 +62,9 @@ public class AdaptateurGameControlleur {
         }
     }
 
-
-
-    @PostMapping("/game")
+    @PostMapping("/games")
     public ResponseEntity<Game> createGame(@RequestBody Game gameData) {
-        Game createdGame = gameUseCase.createGame(gameData);
+        Game createdGame = gameService.createGame(gameData.getName(), gameData.getImages());
 
         if (createdGame != null) {
             return ResponseEntity
@@ -74,20 +73,6 @@ public class AdaptateurGameControlleur {
         } else {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
-    }
-    @PutMapping("/game/{gameId}")
-    public ResponseEntity<Game> updateGame(@PathVariable int gameId, @RequestBody Game updatedGameData) {
-        Game updatedGame = gameUseCase.updateGame(new Game(gameId, updatedGameData.getName(), updatedGameData.getImages(), updatedGameData.getDescription() ));
-
-        if (updatedGame != null) {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(updatedGame);
-        } else {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
                     .build();
         }
     }
