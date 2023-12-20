@@ -3,7 +3,7 @@ import React from 'react';
 const addUser = () => {
     return (
         <div>
-            <div className="top-headr">
+            <div className="top-header">
                 <header>Add user</header>
             </div>
             <div className="input-field">
